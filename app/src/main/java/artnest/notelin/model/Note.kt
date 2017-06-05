@@ -1,4 +1,4 @@
-package artnest.notelin
+package artnest.notelin.model
 
 import java.util.*
 

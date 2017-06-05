@@ -1,7 +1,9 @@
-package artnest.notelin
+package artnest.notelin.view
 
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.widget.EditText
+import artnest.notelin.R
+import artnest.notelin.controller.NoteFragment
 import org.jetbrains.anko.*
 
 class NoteFragmentUI : AnkoComponent<NoteFragment> {

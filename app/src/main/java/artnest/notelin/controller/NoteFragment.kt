@@ -1,10 +1,12 @@
-package artnest.notelin
+package artnest.notelin.controller
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import artnest.notelin.model.Note
+import artnest.notelin.view.NoteFragmentUI
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import org.jetbrains.anko.support.v4.ctx
