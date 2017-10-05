@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta6'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta7'
     }
 }
 
@@ -24,10 +24,12 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportLibraryVersion = "26.1.0"
-    archComponentsVersion = "1.0.0-beta1"
-    pagingVersion = "1.0.0-alpha2"
-    butterknifeVersion = "8.8.1"
-    gsonVersion = "2.8.1"
-    junitVersion = "4.12"
+    supportLibraryVersion = '26.1.0'
+    archComponentsVersion = '1.0.0-beta1'
+    pagingVersion = '1.0.0-alpha2'
+    butterknifeVersion = '8.8.1'
+    gsonVersion = '2.8.1'
+    junitVersion = '4.12'
+    runnerVersion = '1.0.1'
+    rulesVersion = '1.0.1'
 }
