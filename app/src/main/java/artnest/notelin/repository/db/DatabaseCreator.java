@@ -1,4 +1,4 @@
-package artnest.notelin.db;
+package artnest.notelin.repository.db;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
