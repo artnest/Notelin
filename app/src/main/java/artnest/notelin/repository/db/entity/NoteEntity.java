@@ -3,7 +3,7 @@ package artnest.notelin.repository.db.entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 
-import artnest.notelin.model.NoteModel;
+import artnest.notelin.repository.model.NoteModel;
 
 /**
  * Created by nesterenko_a on 10.10.2017.

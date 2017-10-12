@@ -1,4 +1,4 @@
-package artnest.notelin.model;
+package artnest.notelin.repository.model;
 
 /**
  * Created by nesterenko_a on 10.10.2017.

@@ -2,7 +2,7 @@ package artnest.notelin.repository.db.entity;
 
 import android.arch.persistence.room.PrimaryKey;
 
-import artnest.notelin.model.IdentifiableModel;
+import artnest.notelin.repository.model.IdentifiableModel;
 
 /**
  * Created by nesterenko_a on 11.10.2017.

@@ -40,7 +40,7 @@ public interface NoteDao {
     @Query("DELETE FROM notes")
     void deleteAll();
 
-    @Query("SELECT * FROM note")
+    @Query("SELECT * FROM notes")
     LiveData<List<NoteEntity>> loadAll();
 
     @Query("SELECT * FROM notes WHERE id = :noteId")
