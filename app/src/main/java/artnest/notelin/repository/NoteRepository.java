@@ -1,15 +1,16 @@
 package artnest.notelin.repository;
 
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import artnest.notelin.App;
 import artnest.notelin.repository.db.dao.NoteDao;
 import artnest.notelin.repository.db.entity.NoteEntity;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by nesterenko_a on 11.10.2017.
@@ -40,108 +41,78 @@ public class NoteRepository {
         return noteDao.loadAll();
     }
 
-    public void put(final NoteEntity note) {
-        insertTask(note);
+    public void save(@NonNull final NoteEntity note) {
+        Observable
+                .just(note)
+                .doOnNext(noteDao::insert)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    public void put(final NoteEntity note, @Nullable final TaskListener listener) {
-        insertTask(note, listener);
+    public void save(@NonNull final NoteEntity note, @NonNull final TaskListener listener) {
+        Observable
+                .just(note)
+                .doOnNext(noteDao::insert)
+                .doOnComplete(listener::onTaskFinished)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    public void put(final List<NoteEntity> noteList) {
-        insertAllTask(noteList);
+    public void save(final List<NoteEntity> noteList) {
+        Observable
+                .fromIterable(noteList)
+                .doOnNext(noteDao::insert)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    public void put(final List<NoteEntity> noteList, @Nullable final TaskListener listener) {
-        insertAllTask(noteList, listener);
+    public void save(@NonNull final List<NoteEntity> noteList, @NonNull final TaskListener listener) {
+        Observable
+                .fromIterable(noteList)
+                .doOnNext(noteDao::insert)
+                .doOnComplete(listener::onTaskFinished)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    private void insertTask(final NoteEntity noteEntity) {
-        insertTask(noteEntity, null);
+    public void remove(@NonNull final NoteEntity note) {
+        Observable
+                .just(note)
+                .doOnNext(noteDao::delete)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    private void insertTask(NoteEntity noteEntity, @Nullable final TaskListener listener) {
-        new AsyncTask<Context, Void, Void>() {
-            @Override
-            protected Void doInBackground(Context... params) {
-                noteDao.insert(noteEntity);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (listener != null) {
-                    listener.onTaskFinished();
-                }
-            }
-        }.execute(App.getContext());
+    public void remove(@NonNull final NoteEntity note, @NonNull final TaskListener listener) {
+        Observable
+                .just(note)
+                .doOnNext(noteDao::delete)
+                .doOnComplete(listener::onTaskFinished)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    private void insertAllTask(final List<NoteEntity> noteEntities) {
-        insertAllTask(noteEntities, null);
+    public void removeAll() {
+        Completable
+                .fromAction(noteDao::deleteAll)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    private void insertAllTask(final List<NoteEntity> noteEntities, @Nullable final TaskListener listener) {
-        new AsyncTask<Context, Void, Void>() {
-            @Override
-            protected Void doInBackground(Context... params) {
-                noteDao.insertAll(noteEntities);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (listener != null) {
-                    listener.onTaskFinished();
-                }
-            }
-        }.execute(App.getContext());
-    }
-
-    private void deleteTask(final NoteEntity noteEntity) {
-        deleteTask(noteEntity, null);
-    }
-
-    private void deleteTask(final NoteEntity noteEntity, @Nullable final TaskListener listener) {
-        new AsyncTask<Context, Void, Void>() {
-            @Override
-            protected Void doInBackground(Context... params) {
-                noteDao.delete(noteEntity);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (listener != null) {
-                    listener.onTaskFinished();
-                }
-            }
-        }.execute(App.getContext());
-    }
-
-    private void deleteAllTask() {
-        deleteAllTask(null);
-    }
-
-    private void deleteAllTask(@Nullable final TaskListener listener) {
-        new AsyncTask<Context, Void, Void>() {
-            @Override
-            protected Void doInBackground(Context... params) {
-                noteDao.deleteAll();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (listener != null) {
-                    listener.onTaskFinished();
-                }
-            }
-        }.execute(App.getContext());
+    public void removeAll(@NonNull final TaskListener listener) {
+        Completable
+                .fromAction(noteDao::deleteAll)
+                .doOnComplete(listener::onTaskFinished)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     interface TaskListener {

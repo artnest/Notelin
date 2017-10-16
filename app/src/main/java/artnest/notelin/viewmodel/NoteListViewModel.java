@@ -4,9 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import artnest.notelin.repository.NoteRepository;
@@ -41,24 +41,15 @@ public class NoteListViewModel extends ViewModel {
     public void onFabButtonClicked() {
         // DatabaseMockUtils.populateMockDataAsync(DatabaseCreator.getInstance().getDatabase());
 
-        // NoteRepository.getInstance().put(new NoteEntity());
-        new AsyncTask<Void, Void, Void>() {
-
-            private final AppDatabase mDb = DatabaseCreator.getInstance().getDatabase();
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                mDb.beginTransaction();
-                mDb.noteDao().insert(new NoteEntity(1, "aaa", "test"));
-                mDb.noteDao().insert(new NoteEntity(2, "bbb", "test"));
-                mDb.noteDao().insert(new NoteEntity(3, "ccc", "test"));
-                mDb.noteDao().insert(new NoteEntity(4, "ddd", "test"));
-                mDb.noteDao().insert(new NoteEntity(5, "eee", "test"));
-                mDb.setTransactionSuccessful();
-                mDb.endTransaction();
-                return null;
-            }
-        }.execute();
+        // NoteRepository.getInstance(DatabaseCreator.getInstance().getDatabase().noteDao()).removeAll();
+        AppDatabase mDb = DatabaseCreator.getInstance().getDatabase();
+        List<NoteEntity> mNoteEntities = new LinkedList<>();
+        mNoteEntities.add(new NoteEntity(1, "aaa", "test"));
+        mNoteEntities.add(new NoteEntity(2, "bbb", "test"));
+        mNoteEntities.add(new NoteEntity(3, "ccc", "test"));
+        mNoteEntities.add(new NoteEntity(4, "ddd", "test"));
+        mNoteEntities.add(new NoteEntity(5, "eee", "test"));
+        NoteRepository.getInstance(mDb.noteDao()).save(mNoteEntities);
     }
 
     public LiveData<List<NoteEntity>> getNoteList() {

@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta7'
+        classpath 'com.android.tools.build:gradle:3.0.0-rc1'
     }
 }
 
@@ -29,6 +29,9 @@ ext {
     pagingVersion = '1.0.0-alpha2'
     butterknifeVersion = '8.8.1'
     gsonVersion = '2.8.1'
+    rxJavaVersion = '2.1.5'
+    rxAndroidVersion = '2.0.1'
+    rxBindingVersion = '2.0.0'
     junitVersion = '4.12'
     runnerVersion = '1.0.1'
     rulesVersion = '1.0.1'

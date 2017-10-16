@@ -59,6 +59,10 @@ dependencies {
 
     implementation "com.google.code.gson:gson:$project.gsonVersion"
 
+    implementation "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"
+    // implementation "com.jakewharton.rxbinding2:rxbinding:$project.rxBindingVersion"
+
 
     testImplementation "junit:junit:$project.junitVersion"
     androidTestImplementation "com.android.support:support-annotations:$project.supportLibraryVersion"
