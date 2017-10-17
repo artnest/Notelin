@@ -1,20 +1,17 @@
 package artnest.notelin.view.ui.adapter;
 
-import android.support.annotation.Nullable;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import artnest.notelin.R;
+import artnest.notelin.databinding.ItemNoteListBinding;
 import artnest.notelin.repository.db.entity.NoteEntity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import artnest.notelin.repository.model.NoteModel;
 
 /**
  * Created by nesterenko_a on 12.10.2017.
@@ -22,12 +19,10 @@ import butterknife.OnClick;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteViewHolder> {
 
-    private final ClickListener mListener;
     private final List<NoteEntity> dataSet;
 
-    public NoteListAdapter(ClickListener listener) {
+    public NoteListAdapter() {
         setHasStableIds(true);
-        this.mListener = listener;
         this.dataSet = new ArrayList<>();
     }
 
@@ -38,17 +33,13 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
     }
 
     public void add(NoteEntity item) {
-        add(null, item);
+        dataSet.add(item);
+        notifyItemInserted(dataSet.size() - 1);
     }
 
-    public void add(@Nullable Integer position, NoteEntity item) {
-        if (position != null) {
-            dataSet.add(position, item);
-            notifyItemInserted(position);
-        } else {
-            dataSet.add(item);
-            notifyItemInserted(dataSet.size() - 1);
-        }
+    public void add(int position, NoteEntity item) {
+        dataSet.add(position, item);
+        notifyItemInserted(position);
     }
 
     public void remove(int position) {
@@ -65,15 +56,15 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
 
     @Override
     public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_list, parent, false);
-        return new NoteViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        ItemNoteListBinding binding = ItemNoteListBinding.inflate(inflater, parent, false);
+        return new NoteViewHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(NoteViewHolder holder, int position) {
-        NoteEntity item = dataSet.get(position);
-        holder.name.setText(item.getName());
-        holder.text.setText(item.getText());
+        NoteEntity item = dataSet.get(holder.getAdapterPosition());
+        holder.bind(item);
     }
 
     @Override
@@ -88,25 +79,20 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
 
     class NoteViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_name)
-        TextView name;
-        @BindView(R.id.tv_text)
-        TextView text;
+        private final ItemNoteListBinding binding;
 
         public NoteViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+            this.binding = DataBindingUtil.bind(view);
         }
 
-        @OnClick(R.id.tv_text)
-        public void onItemClick() {
-            if (mListener != null) {
-                mListener.onItemClicked(dataSet.get(getAdapterPosition()));
-            }
+        public void bind(NoteEntity item) {
+            binding.setItem(item);
+            binding.executePendingBindings();
         }
     }
 
     public interface ClickListener {
-        void onItemClicked(NoteEntity note);
+        void onItemClicked(NoteModel note);
     }
 }

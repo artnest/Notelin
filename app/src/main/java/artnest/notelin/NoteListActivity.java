@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import artnest.notelin.repository.db.entity.NoteEntity;
+import artnest.notelin.repository.model.NoteModel;
 import artnest.notelin.view.ui.adapter.NoteListAdapter;
 import artnest.notelin.view.ui.dialog.CustomDialogs;
 import artnest.notelin.viewmodel.NoteListViewModel;
@@ -38,9 +39,13 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
         ButterKnife.bind(this);
 
         mRecyclerView.setHasFixedSize(true);
+        /*FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        mRecyclerView.setLayoutManager(layoutManager);*/
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mNoteListAdapter = new NoteListAdapter(this);
+        mNoteListAdapter = new NoteListAdapter();
         mRecyclerView.setAdapter(mNoteListAdapter);
     }
 
@@ -78,8 +83,8 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
     }
 
     @Override
-    public void onItemClicked(NoteEntity note) {
-        mViewModel.onListItemClicked(note);
+    public void onItemClicked(NoteModel note) {
+        mViewModel.onListItemClicked((NoteEntity) note);
         // openNoteDetailActivity(note);
     }
 
