@@ -1,9 +1,9 @@
-package artnest.notelin;
+package artnest.notelin.view.ui.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import artnest.notelin.R;
+import artnest.notelin.databinding.ActivityNoteListBinding;
 import artnest.notelin.repository.db.entity.NoteEntity;
 import artnest.notelin.repository.model.NoteModel;
 import artnest.notelin.view.ui.adapter.NoteListAdapter;
@@ -30,7 +32,9 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_list);
+        // setContentView(R.layout.activity_note_list);
+        ActivityNoteListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_note_list);
+        binding.setView(this);
         initViews();
         initViewModel();
     }
@@ -44,7 +48,7 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
         layoutManager.setJustifyContent(JustifyContent.FLEX_END);
         mRecyclerView.setLayoutManager(layoutManager);*/
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        // mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mNoteListAdapter = new NoteListAdapter();
         mRecyclerView.setAdapter(mNoteListAdapter);
     }
@@ -109,5 +113,10 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onFabButtonClicked() {
+        CustomDialogs.showAddNewNoteAlertDialog(this,
+                (dialog, which) -> mViewModel.onFabButtonClicked());
     }
 }

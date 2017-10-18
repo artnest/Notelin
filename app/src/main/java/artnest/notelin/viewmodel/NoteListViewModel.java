@@ -49,6 +49,9 @@ public class NoteListViewModel extends ViewModel {
         mNoteEntities.add(new NoteEntity(3, "ccc", "test"));
         mNoteEntities.add(new NoteEntity(4, "ddd", "test"));
         mNoteEntities.add(new NoteEntity(5, "eee", "test"));
+        mNoteEntities.add(new NoteEntity(6, "fff", "test"));
+        mNoteEntities.add(new NoteEntity(7, "ggg", "test"));
+        mNoteEntities.add(new NoteEntity(8, "hhh", "test"));
         NoteRepository.getInstance(mDb.noteDao()).save(mNoteEntities);
     }
 
