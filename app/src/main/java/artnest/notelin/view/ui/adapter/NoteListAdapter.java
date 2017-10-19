@@ -1,25 +1,14 @@
 package artnest.notelin.view.ui.adapter;
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import artnest.notelin.databinding.ItemNoteListBinding;
-import artnest.notelin.repository.db.entity.NoteEntity;
 import artnest.notelin.repository.model.NoteModel;
 
 /**
  * Created by nesterenko_a on 12.10.2017.
  */
 
-public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteViewHolder> {
+public class NoteListAdapter /*extends RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>*/ {
 
-    private final List<NoteEntity> dataSet;
+    /*private final List<NoteEntity> dataSet;
 
     public NoteListAdapter() {
         setHasStableIds(true);
@@ -75,22 +64,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
     @Override
     public int getItemCount() {
         return dataSet.size();
-    }
-
-    class NoteViewHolder extends RecyclerView.ViewHolder {
-
-        private final ItemNoteListBinding binding;
-
-        public NoteViewHolder(View view) {
-            super(view);
-            this.binding = DataBindingUtil.bind(view);
-        }
-
-        public void bind(NoteEntity item) {
-            binding.setItem(item);
-            binding.executePendingBindings();
-        }
-    }
+    }*/
 
     public interface ClickListener {
         void onItemClicked(NoteModel note);

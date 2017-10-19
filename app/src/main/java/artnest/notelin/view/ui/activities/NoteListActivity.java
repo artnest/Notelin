@@ -3,6 +3,7 @@ package artnest.notelin.view.ui.activities;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,21 +21,25 @@ import artnest.notelin.view.ui.dialog.CustomDialogs;
 import artnest.notelin.viewmodel.NoteListViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eu.davidea.flexibleadapter.FlexibleAdapter;
 
 public class NoteListActivity extends AppCompatActivity implements NoteListAdapter.ClickListener {
 
     private NoteListViewModel mViewModel;
 
-    private NoteListAdapter mNoteListAdapter;
+    // private NoteListAdapter mNoteListAdapter;
+    private FlexibleAdapter<NoteEntity> mNoteListAdapter;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setContentView(R.layout.activity_note_list);
         ActivityNoteListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_note_list);
-        binding.setView(this);
+        binding.content.setView(this);
         initViews();
         initViewModel();
     }
@@ -49,8 +54,10 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
         mRecyclerView.setLayoutManager(layoutManager);*/
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mNoteListAdapter = new NoteListAdapter();
+        //     mNoteListAdapter = new NoteListAdapter();
+        mNoteListAdapter = new FlexibleAdapter<>(null);
         mRecyclerView.setAdapter(mNoteListAdapter);
+        mRecyclerView.addOnScrollListener(new FloatingActionButtonScrollListener(mFab));
     }
 
     private void initViewModel() {
@@ -77,7 +84,9 @@ public class NoteListActivity extends AppCompatActivity implements NoteListAdapt
     }
 
     private void showNoteListInUi(List<NoteEntity> noteEntities) {
-        mNoteListAdapter.setItems(noteEntities);
+        // mNoteListAdapter.setItems(noteEntities);
+        mNoteListAdapter.clear();
+        mNoteListAdapter.addItems(0, noteEntities);
     }
 
     private void showProgress() {

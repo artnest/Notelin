@@ -54,6 +54,7 @@ public class NoteRepository {
         Observable
                 .just(note)
                 .doOnNext(noteDao::insert)
+                // .doOnNext(noteDao::insertAll)
                 .doOnComplete(listener::onTaskFinished)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

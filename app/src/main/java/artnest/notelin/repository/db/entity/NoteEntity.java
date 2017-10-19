@@ -2,8 +2,14 @@ package artnest.notelin.repository.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.view.View;
 
+import java.util.List;
+
+import artnest.notelin.R;
 import artnest.notelin.repository.model.NoteModel;
+import artnest.notelin.view.ui.viewholder.NoteViewHolder;
+import eu.davidea.flexibleadapter.FlexibleAdapter;
 
 /**
  * Created by nesterenko_a on 10.10.2017.
@@ -13,7 +19,6 @@ import artnest.notelin.repository.model.NoteModel;
 public class NoteEntity extends IdentifiableEntity implements NoteModel {
 
     private String name;
-
     private String text;
 
     public NoteEntity() {
@@ -59,14 +64,6 @@ public class NoteEntity extends IdentifiableEntity implements NoteModel {
         return name.equals(that.name) && text.equals(that.text);
     }*/
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NoteEntity)) return false;
-        NoteEntity that = (NoteEntity) o;
-        return this.id == that.id;
-    }
-
     /*@Override
     public int hashCode() {
         int result = name.hashCode();
@@ -74,13 +71,24 @@ public class NoteEntity extends IdentifiableEntity implements NoteModel {
         return result;
     }*/
 
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
-
     public void update(NoteEntity note) {
         this.name = note.getName();
         this.text = note.getText();
+    }
+
+
+    @Override
+    public NoteViewHolder createViewHolder(View view, FlexibleAdapter adapter) {
+        return new NoteViewHolder(view, adapter);
+    }
+
+    @Override
+    public void bindViewHolder(FlexibleAdapter adapter, NoteViewHolder holder, int position, List payloads) {
+        holder.bind(this);
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.item_note_list;
     }
 }

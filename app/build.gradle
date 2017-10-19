@@ -12,6 +12,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -32,10 +38,6 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
-    }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
     }
 }
 
@@ -59,7 +61,10 @@ dependencies {
     implementation "com.jakewharton:butterknife:$project.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterknifeVersion"
 
-    implementation "com.google.code.gson:gson:$project.gsonVersion"
+    implementation 'eu.davidea:flexible-adapter:5.0.0-rc2'
+    implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b1@aar'
+
+    // implementation "com.google.code.gson:gson:$project.gsonVersion"
 
     implementation "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"
