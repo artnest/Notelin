@@ -55,9 +55,9 @@ public class NoteRepository {
                 .just(note)
                 .doOnNext(noteDao::insert)
                 // .doOnNext(noteDao::insertAll)
-                .doOnComplete(listener::onTaskFinished)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(listener::onTaskFinished)
                 .subscribe();
     }
 
@@ -74,9 +74,9 @@ public class NoteRepository {
         Observable
                 .fromIterable(noteList)
                 .doOnNext(noteDao::insert)
-                .doOnComplete(listener::onTaskFinished)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(listener::onTaskFinished)
                 .subscribe();
     }
 
@@ -93,9 +93,9 @@ public class NoteRepository {
         Observable
                 .just(note)
                 .doOnNext(noteDao::delete)
-                .doOnComplete(listener::onTaskFinished)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(listener::onTaskFinished)
                 .subscribe();
     }
 
@@ -110,13 +110,13 @@ public class NoteRepository {
     public void removeAll(@NonNull final TaskListener listener) {
         Completable
                 .fromAction(noteDao::deleteAll)
-                .doOnComplete(listener::onTaskFinished)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(listener::onTaskFinished)
                 .subscribe();
     }
 
-    interface TaskListener {
+    public interface TaskListener {
         void onTaskFinished();
     }
 }

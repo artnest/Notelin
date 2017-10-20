@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.getkeepsafe.dexcount'
+// apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 26
@@ -47,8 +47,8 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:design:$rootProject.supportLibraryVersion"
     implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support.constraint:constraint-layout:$project.constraintLayoutVersion"
-    implementation "com.google.android:flexbox:$project.flexboxLayoutVersion"
+    // implementation "com.android.support.constraint:constraint-layout:$project.constraintLayoutVersion"
+    // implementation "com.google.android:flexbox:$project.flexboxLayoutVersion"
 
     implementation "android.arch.lifecycle:extensions:$rootProject.archComponentsVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archComponentsVersion"
